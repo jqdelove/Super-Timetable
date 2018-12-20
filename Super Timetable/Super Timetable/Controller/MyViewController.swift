@@ -7,13 +7,23 @@
 //
 
 import UIKit
-
+//我的视图控制器
 class MyViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    
+    @IBAction func MyBtn(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "系统提示",message: "此功能正在开发中！", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+            action in
+        })
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
 

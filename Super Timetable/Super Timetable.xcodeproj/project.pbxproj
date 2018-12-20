@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B42168B121C2374300120B4A /* addClassBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42168B021C2374300120B4A /* addClassBtn.swift */; };
 		B42168B321C23F1500120B4A /* choseClassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42168B221C23F1500120B4A /* choseClassVC.swift */; };
+		B426D58921CB70D7004D100E /* classView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426D58821CB70D7004D100E /* classView.swift */; };
 		B45158C921BD30C100D67B6E /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45158C821BD30C100D67B6E /* TodoModel.swift */; };
 		B46B640821BBD0370055F97A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46B640721BBD0370055F97A /* AppDelegate.swift */; };
 		B46B640D21BBD0370055F97A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B46B640B21BBD0370055F97A /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		B42168B021C2374300120B4A /* addClassBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addClassBtn.swift; sourceTree = "<group>"; };
 		B42168B221C23F1500120B4A /* choseClassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = choseClassVC.swift; sourceTree = "<group>"; };
+		B426D58821CB70D7004D100E /* classView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = classView.swift; sourceTree = "<group>"; };
 		B45158C821BD30C100D67B6E /* TodoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoModel.swift; sourceTree = "<group>"; };
 		B46B640421BBD0370055F97A /* Super Timetable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Super Timetable.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B46B640721BBD0370055F97A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		B46B640621BBD0370055F97A /* Super Timetable */ = {
 			isa = PBXGroup;
 			children = (
+				B46B641B21BBD1D50055F97A /* View */,
 				B46B641D21BBD1E80055F97A /* Controller */,
 				B46B640721BBD0370055F97A /* AppDelegate.swift */,
 				B46B641921BBD1B90055F97A /* Model */,
@@ -91,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				B42168B021C2374300120B4A /* addClassBtn.swift */,
+				B426D58821CB70D7004D100E /* classView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -104,7 +108,6 @@
 				B4A3C39321C0F2450001D51B /* MyViewController.swift */,
 				B4A3C39521C10B990001D51B /* addClassViewController.swift */,
 				B42168B221C23F1500120B4A /* choseClassVC.swift */,
-				B46B641B21BBD1D50055F97A /* View */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				B4A3C38E21C0F0360001D51B /* ChatViewController.swift in Sources */,
 				B4A3C39021C0F08F0001D51B /* TabBarController.swift in Sources */,
 				B4A3C39621C10B990001D51B /* addClassViewController.swift in Sources */,
+				B426D58921CB70D7004D100E /* classView.swift in Sources */,
 				B4A3C39421C0F2450001D51B /* MyViewController.swift in Sources */,
 				B46B640821BBD0370055F97A /* AppDelegate.swift in Sources */,
 				B42168B121C2374300120B4A /* addClassBtn.swift in Sources */,

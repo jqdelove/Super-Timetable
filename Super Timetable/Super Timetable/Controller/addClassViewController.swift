@@ -8,15 +8,19 @@
 
 import UIKit
 
+
+//block传值
+typealias blc = (_ str1:String, _ str2:String,_ str3:String)->Void
 class addClassViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource {
     let mainTable : UITableView = UITableView(frame: UIScreen.main.bounds, style: UITableView.Style.plain)
     var picker : UIView = UIView()
     var pickerView : UIPickerView = UIPickerView()
     var clickedCell = IndexPath()
+    var blo : blc!
     
     let name_links_array : [String] =
         [
-            "课程设置","设置节数","每周起始日"
+            "课程名设置","设置节数","起始周"
         ]
     
     let start_week_array : [String] =
@@ -27,12 +31,13 @@ class addClassViewController: UIViewController,UITableViewDelegate,UITableViewDa
     let class_count_array : [String] =
         [
             "1节","2节","3节","4节","5节","6节","7节","8节"
-    ]
+        ]
+   
     
-    var detail_array : [String] =
+    public var detail_array : [String] =
         [
             "","",""
-    ]
+        ]
     
     // MARK: Picker Delegate 实现代理方法
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -61,7 +66,7 @@ class addClassViewController: UIViewController,UITableViewDelegate,UITableViewDa
         //赋值
         if clickedCell.row == 1 {
             return class_count_array[row]
-        }else{
+        }else {
             return start_week_array[row]
         }
     }
@@ -91,9 +96,14 @@ class addClassViewController: UIViewController,UITableViewDelegate,UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let sb = UIStoryboard.init(name: "Main", bundle:Bundle.main)
-            let choseClassVC = sb.instantiateViewController(withIdentifier: "choseClassVC")
+            let chooseClassVC : choseClassVC = sb.instantiateViewController(withIdentifier: "choseClassVC") as! choseClassVC
+            //在跳转处实现代理或block
+//            chooseClassVC.delegate = self
+            chooseClassVC.myBlock = {a in
+                self.detail_array[0] = a
+            }
             self.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(choseClassVC, animated: true)
+            self.navigationController?.pushViewController(chooseClassVC, animated: true)
             self.hidesBottomBarWhenPushed = true
         }
         if indexPath.row > 0 {
@@ -103,17 +113,17 @@ class addClassViewController: UIViewController,UITableViewDelegate,UITableViewDa
         pickerView.reloadAllComponents()
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+    //pickerView取消按钮
     @objc func clickCancelBtn() {
         picker.isHidden = true
     }
-    
+    //pickerView完成按钮
     @objc func clickDoneBtn() {
         let selectedRow = pickerView.selectedRow(inComponent: 0)
         var string = String()
         if clickedCell.row == 1 {
             string = class_count_array[selectedRow]
-        }else{
+        }else {
             string = start_week_array[selectedRow]
         }
         let cell = mainTable.cellForRow(at: clickedCell)
@@ -122,6 +132,12 @@ class addClassViewController: UIViewController,UITableViewDelegate,UITableViewDa
         let array : [IndexPath] = [clickedCell]
         mainTable.reloadRows(at: array, with: UITableView.RowAnimation.automatic)
         picker.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let path = IndexPath(row: 0, section: 0)
+        let array : [IndexPath] = [path]
+        mainTable.reloadRows(at: array, with: UITableView.RowAnimation.automatic)
     }
     
     override func viewDidLoad() {
@@ -152,23 +168,25 @@ class addClassViewController: UIViewController,UITableViewDelegate,UITableViewDa
         pickerView.dataSource = self
         picker.isHidden = true
     }
-    
+    //头部视图创建
     func creatTableHead() {
         let headView : UIView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT*0.2))
         headView.backgroundColor = UIColor.init(displayP3Red: 188.0/255.0, green: 202.0/255.0, blue: 170.0/255.0, alpha: 0.8)
         let addClass = addClassBtn()
         let width = headView.bounds.size.width
         let height = headView.bounds.size.height
+        addClass.tag = 1
+        addClass.addTarget(self, action: #selector(addClassViewController.clickShareClass(_:)), for: UIControl.Event.touchUpInside)
         addClass.frame = CGRect(x: width*0.1, y: height*0.1, width: width*0.167, height: height*0.8)
         addClass.createMyBtn(UIImage.init(named: "添加设备")!, andTitle: "添加课程")
         headView.addSubview(addClass)
         let plusClass = addClassBtn()
-        plusClass.addTarget(self, action: #selector(addClassViewController.clickShareClass), for: UIControl.Event.touchUpInside)
+        plusClass.addTarget(self, action: #selector(addClassViewController.clickShareClass(_:)), for: UIControl.Event.touchUpInside)
         plusClass.frame = CGRect(x: width*0.43, y: height*0.1, width: width*0.167, height: height*0.8)
         plusClass.createMyBtn(UIImage.init(named: "17-毕业")!, andTitle: "蹭课")
         headView.addSubview(plusClass)
         let shareClass = addClassBtn()
-        shareClass.addTarget(self, action: #selector(addClassViewController.clickShareClass), for: UIControl.Event.touchUpInside)
+        shareClass.addTarget(self, action: #selector(addClassViewController.clickShareClass(_:)), for: UIControl.Event.touchUpInside)
         shareClass.frame = CGRect(x: width*0.75, y: height*0.1, width: width*0.167, height: height*0.8)
         shareClass.createMyBtn(UIImage.init(named: "分享2")!, andTitle: "分享课表")
         headView.addSubview(shareClass)
@@ -177,18 +195,27 @@ class addClassViewController: UIViewController,UITableViewDelegate,UITableViewDa
         view.backgroundColor = UIColor.clear
         mainTable.tableFooterView = view
     }
-    
-    @objc func clickShareClass(){
-        let alertController = UIAlertController(title: "系统提示",message: "此功能正在开发中！", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "确定", style: .default, handler: {
-            action in
-        })
-        alertController.addAction(okAction)
-        self.present(alertController, animated: true, completion: nil)
+    //头部按钮出发事件
+    @objc func clickShareClass(_ sender:UIButton){
+        if sender.tag != 1 {
+            let alertController = UIAlertController(title: "系统提示",message: "此功能正在开发中！", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                action in
+            })
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }else{
+            self.blo(detail_array[0],detail_array[1],detail_array[2])
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        
     }
     
     
-    
+//    func backStr(str: String) {
+//        detail_array[0] = str
+//    }
     
     func initTableView() {
         

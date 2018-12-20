@@ -9,9 +9,28 @@
 import UIKit
 let SCREEN_WIDTH = UIScreen.main.bounds.size.width
 let SCREEN_HEIGHT = UIScreen.main.bounds.size.height
-
+/*
+ 课程表
+    X：屏宽/8 (星期确定X)
+    Y：屏高/10 （起始节数确认起始Y<默认0>,节数确定高度）
+    列宽：屏宽/8
+    行高：屏高/10
+ **/
 class TimeTableViewController: UIViewController {
 
+    var result_array:[String] =
+        [
+            "","",""
+        ]
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print(result_array)
+        addToClassTable(result_array[0], weekMatch(result_array[2]), countMatch(result_array[1]))
+        result_array =
+        [
+        "","",""
+        ]
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "第2周"
@@ -28,15 +47,20 @@ class TimeTableViewController: UIViewController {
         let leftItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(TimeTableViewController.leftButtonClicked))
         self.navigationItem.rightBarButtonItem = leftItem
     }
-    
+    //添加按钮
     @objc func leftButtonClicked(){
         let sb = UIStoryboard.init(name: "Main", bundle:Bundle.main)
-        let addVC = sb.instantiateViewController(withIdentifier: "addVC")
+        let addVC = sb.instantiateViewController(withIdentifier: "addVC") as! addClassViewController
+        addVC.blo = {a,b,c in
+            self.result_array[0] = a
+            self.result_array[1] = b
+            self.result_array[2] = c
+        }
         self.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(addVC, animated: true)
         self.hidesBottomBarWhenPushed = false
     }
-    
+    //头部时间视图
     func initHeaderView() {
         let date = NSDate()
         let timeFormatterMonth = DateFormatter()
@@ -75,5 +99,62 @@ class TimeTableViewController: UIViewController {
             nowIndex += width
         }
     }
-
+    //添加课程至tableView
+    func addToClassTable(_ name:String ,_ week:Int ,_ count:Int) -> Void {
+        let cView = classView()
+        cView.backgroundColor = UIColor.init(displayP3Red: 188.0/255.0, green: 202.0/255.0, blue: 170.0/255.0, alpha: 0.8)
+        cView.frame = CGRect(x: CGFloat(Float(week)*Float(SCREEN_WIDTH)/8.0),
+                             y: SCREEN_HEIGHT*0.08+116,
+                             width: SCREEN_WIDTH/8.0,
+                             height: CGFloat(Float(count)*Float(SCREEN_HEIGHT)/10.0)
+                            )
+        cView.addClassView(name)
+        self.view.addSubview(cView)
+    }
+    //节数匹配
+    func countMatch(_ str:String) -> Int {
+        switch str {
+        case "1节":
+            return 1;
+        case "2节":
+            return 2;
+        case "3节":
+            return 3;
+        case "4节":
+            return 4;
+        case "5节":
+            return 5;
+        case "6节":
+            return 6;
+        case "7节":
+            return 7;
+        case "8节":
+            return 8;
+        default:
+            return 0;
+        }
+    }
+    //星期匹配
+    func weekMatch(_ str:String) -> Int {
+        switch str {
+        case "周一":
+            return 1;
+        case "周二":
+            return 2;
+        case "周三":
+            return 3;
+        case "周四":
+            return 4;
+        case "周五":
+            return 5;
+        case "周六":
+            return 6;
+        case "周日":
+            return 7;
+        default:
+            return 0;
+        }
+    }
+    
+    
 }

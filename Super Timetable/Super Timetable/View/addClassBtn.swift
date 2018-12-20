@@ -8,6 +8,7 @@
 
 import UIKit
 
+//创建课程按钮
 class addClassBtn: UIButton {
     public var image = UIImage()
     public var title = String()

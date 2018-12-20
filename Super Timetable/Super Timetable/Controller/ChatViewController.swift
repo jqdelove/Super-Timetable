@@ -8,8 +8,13 @@
 
 import UIKit
 
+
+//聊天视图控制器
 class ChatViewController: UIViewController {
 
+    
+    
+    
     @IBAction func noteButton(_ sender: UIButton) {
         let alertController = UIAlertController(title: "系统提示",message: "此功能正在开发中！", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "确定", style: .default, handler: {
